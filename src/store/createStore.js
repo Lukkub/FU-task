@@ -1,18 +1,16 @@
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
-import reduxThunkMiddleware from 'redux-thunk'
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import reduxThunkMiddleware from 'redux-thunk';
 import api from '../middleware/api';
-import * as reducers from './reducers'
+import { reducers } from './reducers';
 
-console.log("reducers", reducers);
-export default function configureStore(initialState): Store {
+export default function configureStore (initialState) {
+    const middleware = [api, reduxThunkMiddleware];
 
-  const middleware = [api, reduxThunkMiddleware];
-
-  const store = createStore(
-    combineReducers({ ...reducers.reducers }),
+    const store = createStore(
+    combineReducers({ ...reducers }),
     initialState,
     applyMiddleware(...middleware)
-  )
+  );
 
-  return store
+    return store;
 }

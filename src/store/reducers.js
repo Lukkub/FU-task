@@ -1,8 +1,11 @@
-import routes from '../routes'
+import routes from '../routes';
 
-let reducers = {};
-routes.childRoutes.map((route)=>{
-	reducers[route.reducer.name] = route.reducer;
+const reducers = {};
+const combineRoutes = routes.childRoutes.concat(routes.indexRoute);
+combineRoutes.map((route) => {
+    if (route.reducer) {
+        reducers[route.reducer.name] = route.reducer;
+    }
 });
 
 export { reducers };

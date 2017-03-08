@@ -5,7 +5,6 @@ export default {
   path: 'counter',
   title: 'Counter',
   component: CounterContainer,
-  reducer: reducer,
   sceneProps: {
     hideNavBar: false
   }

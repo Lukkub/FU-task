@@ -1,59 +1,14 @@
-import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
-import { Actions } from 'react-native-router-flux'
+import { connect } from 'react-redux';
+import { getComicsCollection } from '../modules/homeReducer';
+import Home from '../../../components/Home/home';
 
-class Home extends Component {
+const mapActionCreators = {
+    getComicsCollection
+};
 
-  onPress(){
-    Actions.counter();
-  }
+const mapStateToProps = (state) => ({
+    isPending: state.marvel.isPending,
+    comics: state.marvel.comics
+});
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}> React-Native Redux Starter Kit </Text>
-        <TouchableOpacity onPress={() => this.onPress()}>
-          <Text style={styles.buttonText}> COUNTER </Text>
-        </TouchableOpacity>
-        <Text style={styles.text}> Welcome! </Text>
-        <Image style={styles.image} source={require('../assets/Duck.jpg')} />
-      </View>
-    )
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    margin: 10,
-  },
-  text: {
-    fontSize: 18,
-    textAlign: 'center',
-    margin: 10,
-    marginTop: 20
-  },
-  buttonText: {
-    fontSize: 15,
-    textAlign: 'center',
-    margin: 10,
-    color: 'deepskyblue',
-    textDecorationLine: 'underline',
-    textDecorationStyle: 'solid',
-    textDecorationColor: 'deepskyblue',
-  },
-  image: {
-    width: 100,
-    height: 100
-  }
-})
-
-export default Home
+export default connect(mapStateToProps, mapActionCreators)(Home);
