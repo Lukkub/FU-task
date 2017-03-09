@@ -1,7 +1,7 @@
 import Home from './Home';
-import Counter from './Counter';
+import Comics from './Comics';
 
 export default {
     indexRoute: Home,
-    childRoutes: [Counter]
+    childRoutes: [Comics]
 };

@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
-import { getComicsCollection } from '../modules/homeReducer';
+import { getComicsCollection, setComicsCollection } from '../modules/homeReducer';
 import Home from '../../../components/Home/home';
 
 const mapActionCreators = {
-    getComicsCollection
+    getComicsCollection,
+    setComicsCollection
 };
 
 const mapStateToProps = (state) => ({

@@ -1,23 +1,57 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, AsyncStorage } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import lodash from 'lodash';
+
+const STORAGE_KEY = 'comics';
 
 class Home extends Component {
 
     static propTypes = {
         getComicsCollection: PropTypes.func,
         isPending: PropTypes.bool,
-        comics: PropTypes.array
+        comics: PropTypes.object
     };
 
     constructor (props) {
         super(props);
 
         this.buttonPress = this.buttonPress.bind(this);
+        this.saveAsyncStorage = this.saveAsyncStorage.bind(this);
+        this.loadAsyncStorageData = this.loadAsyncStorageData.bind(this);
+    }
+
+    componentDidMount () {
+        this.loadAsyncStorageData();
+    }
+
+    async loadAsyncStorageData () {
+        const { setComicsCollection } = this.props;
+        try {
+            const data = await AsyncStorage.getItem(STORAGE_KEY);
+            if (data !== null) {
+                setComicsCollection(JSON.parse(data));
+            }
+        } catch (error) {
+            console.warn('Error in loadAsyncStorageData', error.message);
+        }
     }
 
     componentWillReceiveProps (nextProps) {
+        this.saveAsyncStorage(nextProps, this.props);
+    }
 
+    async saveAsyncStorage (nextProps, currentProps) {
+        const nextComicsObj = nextProps.comics;
+        const currentComicsObj = currentProps.comics;
+
+        if (nextComicsObj.id !== currentComicsObj.id) {
+            try {
+                await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(nextComicsObj));
+            } catch (error) {
+                console.warn('Error in saveAsyncStorage', error.message);
+            }
+        }
     }
 
     buttonPress (action, condition) {
@@ -34,11 +68,17 @@ class Home extends Component {
         const { comics, getComicsCollection } = this.props;
 
         const getBtnStyle = styles.button;
-        const showBtnStyle = (lodash.isArray(comics)) ? styles.button : [styles.button, styles.disableButton];
+        const showBtnStyle = (lodash.isArray(comics.data)) ? styles.button : [styles.button, styles.disableButton];
 
         return (
             <View style={styles.container}>
                 <Text style={styles.title}> MARVEL API TEST </Text>
+                <TouchableOpacity
+                  style={getBtnStyle}
+                  onPress={() => AsyncStorage.clear()}
+                  >
+                    <Text style={styles.buttonText}> CLEAR STORAGE </Text>
+                </TouchableOpacity>
                 <TouchableOpacity
                   style={getBtnStyle}
                   onPress={() => this.buttonPress(getComicsCollection)}
@@ -47,7 +87,7 @@ class Home extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={showBtnStyle}
-                  onPress={() => this.buttonPress(() => console.log('fire'), !lodash.isArray(comics))}
+                  onPress={() => this.buttonPress(Actions.comics, !lodash.isArray(comics.data))}
                   >
                     <Text style={styles.buttonText}> SHOW COMICS </Text>
                 </TouchableOpacity>
