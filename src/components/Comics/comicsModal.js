@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet, Dimensions, LayoutAnimation } from 'react-native';
+import lodash from 'lodash';
 
 class ComicsModal extends Component {
 
@@ -25,7 +26,7 @@ class ComicsModal extends Component {
 
         const { title, description, images } = data;
 
-        const path = (images.length > 0) ? images[0].path.replace('http', 'https') + '.' + images[0].extension : null;
+        const path = (lodash.isArray(images) && images.length > 0) ? images[0].path.replace('http', 'https') + '.' + images[0].extension : null;
         const coverImage = (path) ? <Image style={styles.cover} resizeMode={'contain'} source={{ uri: path }} /> : null;
 
         return (

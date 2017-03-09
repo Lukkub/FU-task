@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, ListView, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import ComicsModal from './comicsModal';
+import lodash from 'lodash';
 
 class ComicsView extends Component {
 
@@ -12,23 +13,10 @@ class ComicsView extends Component {
         super(props);
 
         this.renderRow = this.renderRow.bind(this);
-        this.renderSeparator = this.renderSeparator.bind(this);
-
-        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
         this.state = {
-            selectedComics: null,
-            dataSource: ds.cloneWithRows(props.comics.data)
+            selectedComics: null
         };
-    }
-
-    componentWillReceiveProps (nextProps) {
-        if (nextProps.comics.id !== this.props.comics.id) {
-            const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-            this.setState({
-                dataSource: ds.cloneWithRows(nextProps.comics.data)
-            });
-        }
     }
 
     renderRow (rowData) {
@@ -44,23 +32,13 @@ class ComicsView extends Component {
         );
     }
 
-    renderSeparator (sectionID, rowID, adjacentRowHighlighted) {
-        return (
-            <View
-              key={`${sectionID}-${rowID}`}
-              style={{
-                  height: adjacentRowHighlighted ? 4 : 1,
-                  backgroundColor: adjacentRowHighlighted ? '#3B5998' : '#CCCCCC'
-              }}
-              />
-        );
-    }
-
     render () {
+        const comicsData = lodash.get(this.props, 'comics.data', []);
+
         return (
             <View style={styles.container}>
                 <ScrollView>
-                    {this.props.comics.data.map((obj) => this.renderRow(obj))}
+                    {comicsData.map((obj) => this.renderRow(obj))}
                 </ScrollView>
                 <ComicsModal
                   data={this.state.selectedComics}

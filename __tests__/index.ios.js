@@ -1,12 +1,13 @@
 import 'react-native';
 import React from 'react';
-import Index from '../index.ios.js';
+import Home from '../src/components/Home/home.js';
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
 
 it('renders correctly', () => {
     const tree = renderer.create(
-        <Index />
-  );
+        <Home isPending />
+      );
+    expect(tree).toMatchSnapshot();
 });

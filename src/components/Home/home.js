@@ -68,7 +68,7 @@ class Home extends Component {
         const { comics, getComicsCollection, isPending } = this.props;
 
         const getBtnStyle = styles.button;
-        const showBtnStyle = (lodash.isArray(comics.data)) ? styles.button : [styles.button, styles.disableButton];
+        const showBtnStyle = (lodash.isArray(lodash.get(comics, 'data'))) ? styles.button : [styles.button, styles.disableButton];
 
         return (
             <View style={styles.container}>
