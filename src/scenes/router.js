@@ -11,9 +11,20 @@ const getSceneStyle = () => ({
     shadowRadius: 5
 });
 
+const navbarStyle = {
+    backgroundColor: 'black'
+};
+
+const titleStyle = {
+    color: 'white'
+};
+
 export default () => (
     <Router
       scenes={scenes}
       getSceneStyle={getSceneStyle}
+      navigationBarStyle={navbarStyle}
+      titleStyle={titleStyle}
+      leftButtonIconStyle={{ tintColor:'red' }}
   />
 );

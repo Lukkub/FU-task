@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, ListView, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, ListView, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import ComicsModal from './comicsModal';
 
 class ComicsView extends Component {
@@ -59,11 +59,9 @@ class ComicsView extends Component {
     render () {
         return (
             <View style={styles.container}>
-                <ListView
-                  dataSource={this.state.dataSource}
-                  renderRow={this.renderRow}
-                  renderSeparator={this.renderSeparator}
-                />
+                <ScrollView>
+                    {this.props.comics.data.map((obj) => this.renderRow(obj))}
+                </ScrollView>
                 <ComicsModal
                   data={this.state.selectedComics}
                   onClose={() => this.setState({ selectedComics: null })} />
@@ -71,8 +69,6 @@ class ComicsView extends Component {
         );
     }
 };
-
-const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
@@ -86,57 +82,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         padding: 10,
-        backgroundColor: 'black'
-    },
-    containerRowSelected: {
-        backgroundColor: 'white'
+        backgroundColor: 'black',
+        borderWidth: 1,
+        borderColor: 'red'
     },
     rowTitle: {
         color: 'white',
         fontSize: 15,
         textAlign: 'center'
-    },
-    modalContainer: {
-        position: 'absolute',
-        width,
-        height,
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        justifyContent: 'flex-start',
-        alignItems: 'center'
-    },
-    modal: {
-        marginTop: 65,
-        width: width * 0.9,
-        justifyContent: 'center',
-        backgroundColor: 'white'
-    },
-    text: {
-        fontSize: 30,
-        textAlign: 'center',
-        margin: 20
-    },
-    containerCounter: {
-        alignItems: 'center',
-        flexDirection: 'row'
-    },
-    value: {
-        width: 40,
-        fontWeight: 'bold',
-        color: 'limegreen',
-        textAlign: 'center'
-    },
-    button: {
-        paddingLeft: 4,
-        paddingRight: 4,
-        backgroundColor: 'rgb(233, 233, 233)',
-        borderWidth: 1,
-        borderColor: 'rgb(213, 213, 213)',
-        margin: 10
-    },
-    buttonText: {
-        fontSize: 15,
-        textAlign: 'center',
-        margin: 10
     }
 });
 

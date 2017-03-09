@@ -78,14 +78,16 @@ const styles = StyleSheet.create({
     },
     exitText: {
         fontSize: 13,
-        textAlign: 'center'
+        textAlign: 'center',
+        color: 'black'
     },
     titleText: {
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        color: 'black'
     },
     cover: {
         width: width * 0.6,
@@ -98,7 +100,10 @@ const styles = StyleSheet.create({
     },
     descriptionText: {
         fontSize: 11,
-        textAlign: 'justify'
+        textAlign: 'justify',
+        color: 'black',
+        marginTop: 10,
+        marginBottom: 10
     }
 });
 

@@ -65,7 +65,7 @@ class Home extends Component {
     }
 
     render () {
-        const { comics, getComicsCollection } = this.props;
+        const { comics, getComicsCollection, isPending } = this.props;
 
         const getBtnStyle = styles.button;
         const showBtnStyle = (lodash.isArray(comics.data)) ? styles.button : [styles.button, styles.disableButton];
@@ -85,6 +85,7 @@ class Home extends Component {
                   >
                     <Text style={styles.buttonText}> GET COMICS </Text>
                 </TouchableOpacity>
+                {isPending && <Text> Getting data... </Text>}
                 <TouchableOpacity
                   style={showBtnStyle}
                   onPress={() => this.buttonPress(Actions.comics, !lodash.isArray(comics.data))}
@@ -107,7 +108,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-        marginBottom: 30
+        marginBottom: 30,
+        color: 'red'
     },
     text: {
         fontSize: 18,
