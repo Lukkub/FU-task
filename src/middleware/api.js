@@ -4,10 +4,10 @@ import md5 from 'crypto-js/md5';
 export const CALL_API = 'CALL_API';
 
 // API configuration
-const API_KEY_pub = '84ab050b53b4c960b284f0b21ab387c4';
-const API_KEY_priv = 'af3457bd154f5156ec228ccd75f6863f57eeebc3';
+const API_KEY_PUB = '84ab050b53b4c960b284f0b21ab387c4';
+const API_KEY_PRIV = 'af3457bd154f5156ec228ccd75f6863f57eeebc3';
 const API_ROOT = 'https://gateway.marvel.com:443/v1/public/';
-const debug = true;
+const debug = false;
 
 // A Redux middleware that interprets actions with CALL_API info specified.
 // Performs the call and promises when such actions are dispatched.
@@ -16,8 +16,8 @@ export default store => next => action => {
 
     if (typeof callAPI === 'undefined') return next(action);
 
-    let { endpoint, method } = callAPI;
-    const { types, data } = callAPI;
+    let { endpoint } = callAPI;
+    const { method, types, data } = callAPI;
 
     if (typeof endpoint === 'function') {
         endpoint = endpoint(store.getState());
@@ -45,16 +45,11 @@ export default store => next => action => {
     next(actionWith({ type: requestType }));
 
     function callApi (endpoint, method = 'GET', body) {
-
         const timeStamp = Date.now();
         const ts = '?ts=' + timeStamp;
-        const apiKey = '&apikey=' + API_KEY_pub;
-        const hash = '&hash=' + md5(timeStamp + API_KEY_priv + API_KEY_pub);
+        const apiKey = '&apikey=' + API_KEY_PUB;
+        const hash = '&hash=' + md5(timeStamp + API_KEY_PRIV + API_KEY_PUB);
         const fullUrl = API_ROOT + endpoint + ts + apiKey + hash;
-
-        if (body) {
-            body = $.param(body);
-        }
 
         if (debug) console.log('[API] call', fullUrl, body);
 

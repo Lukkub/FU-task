@@ -54,14 +54,14 @@ const styles = StyleSheet.create({
         marginTop: 65,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white'
+        backgroundColor: 'black'
     },
     containerRow: {
         flexDirection: 'row',
         justifyContent: 'center',
         padding: 10,
         backgroundColor: 'black',
-        borderWidth: 1,
+        borderBottomWidth: 1,
         borderColor: 'red'
     },
     rowTitle: {
